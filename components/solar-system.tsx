@@ -9,7 +9,6 @@ import Planet from "@/components/planet"
 import PlanetInfo from "@/components/planet-info"
 import Sun from "@/components/sun"
 import Galaxy from "@/components/galaxy"
-import AudioControls from "@/components/audio-controls"
 import SunInfo from "./sun-info"
 import Legend from "./legend"
 import PerformanceMonitor from "./performance-monitor"
@@ -68,65 +67,61 @@ export default function SolarSystem() {
     return (
         <div className="relative w-full h-full">
             {isLoading && <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />}
-            <AudioControls />
             <FullscreenButton />
             <Canvas
                 camera={{
-                    position: cameraPosition, // position of the camera
-                    fov: cameraFov, // field of view, the angle between the camera and the scene, controls how much of the scene is visible
-                    near: 0.1, // near clipping plane, the distance to the closest objects
-                    far: 1000, // far clipping plane, the distance to the farthest objects
+                    position: cameraPosition,
+                    fov: cameraFov,
+                    near: 0.1,
+                    far: 1000,
                 }}
                 dpr={getDPR()}
                 gl={{
-                    antialias: quality === "high" && !isMobile, // smooth edges of shapes
-                    powerPreference: "high-performance", // use high performance GPU(better performance but drains battery)
-                    stencil: false, // disable stencil buffer(for masking filters, shadows, etc.)
-                    depth: true, // enable depth buffer(for 3D objects)
-                    alpha: false, // disable alpha buffer(for transparency)
+                    antialias: quality === "high" && !isMobile,
+                    powerPreference: "high-performance",
+                    stencil: false,
+                    depth: true,
+                    alpha: false,
                 }}
             >
                 <PerformanceMonitor onQualityChange={handleQualityChange} />
                 <color attach="background" args={["#000"]} />
                 <ambientLight intensity={0.6} />
-                <pointLight position={[0, 0, 0]} intensity={4} color="#fff" />
-
+                <pointLight position={[0, 0, 0]} intensity={2} />
                 <Galaxy />
                 <Sun onClick={handleSunClick} />
-
-                {/* Planets */}
                 {planets.map((planet) => (
-                    <Planet key={planet.id} planet={planet} onClick={() => handlePlanetClick(planet)} />
+                    <Planet
+                        key={planet.name}
+                        planet={planet}
+                        onClick={() => handlePlanetClick(planet)}
+                    />
                 ))}
-
                 <OrbitControls
                     ref={controlsRef}
-                    enablePan={true}
-                    enableZoom={true}
-                    enableRotate={true}
-                    minDistance={10}
-                    maxDistance={200}
+                    enablePan={false}
+                    minDistance={5}
+                    maxDistance={100}
                 />
             </Canvas>
 
+            <Legend />
+
             {selectedPlanet && (
                 <PlanetInfo
-                    key={selectedPlanet.id}
                     planet={selectedPlanet}
                     onClose={handleCloseInfo}
                     isVisible={isInfoVisible}
                 />
             )}
+
             {selectedSun && (
                 <SunInfo
-                    key="sun"
                     sun={selectedSun}
                     onClose={handleCloseInfo}
                     isVisible={isInfoVisible}
                 />
             )}
-
-            <Legend />
         </div>
     )
 }
