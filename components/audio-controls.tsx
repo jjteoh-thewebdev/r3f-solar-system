@@ -1,10 +1,9 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 
 export default function AudioControls() {
     const audioRef = useRef<HTMLAudioElement>(null)
-    const [isPlaying, setIsPlaying] = useState(true)
 
     useEffect(() => {
         const audio = audioRef.current
@@ -19,10 +18,8 @@ export default function AudioControls() {
                 e.preventDefault()
                 if (audio.paused) {
                     audio.play()
-                    setIsPlaying(true)
                 } else {
                     audio.pause()
-                    setIsPlaying(false)
                 }
             }
 

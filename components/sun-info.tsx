@@ -42,7 +42,7 @@ export default function SunInfo({ sun, onClose }: SunInfoProps) {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside)
         }
-    }, [])
+    }, [isVideoOpen])
 
     const handleClose = () => {
         setIsVisible(false)
