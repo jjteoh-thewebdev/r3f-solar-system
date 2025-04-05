@@ -10,6 +10,7 @@ import Sun from "@/components/sun"
 import Galaxy from "@/components/galaxy"
 import AudioControls from "@/components/audio-controls"
 import SunInfo from "./sun-info"
+import Legend from "./legend"
 
 export default function SolarSystem() {
     const [selectedPlanet, setSelectedPlanet] = useState<PlanetData | null>(null)
@@ -81,15 +82,7 @@ export default function SolarSystem() {
                 />
             )}
 
-            <div className="absolute bottom-4 left-4 text-white bg-gradient-to-r from-gray-900/90 to-gray-800/90 backdrop-blur-md p-4 rounded-lg shadow-xl border border-gray-700/50">
-                <p>Click on a planet to view details</p>
-                <p>Use mouse to orbit, scroll to zoom</p>
-                <p>Press Space to toggle music, Ctrl + ↑/↓ to adjust volume</p>
-                <p>
-                    Music by <a className="underline text-blue-400 hover:text-blue-300" href="https://pixabay.com/users/clavier-music-16027823/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=310690">Clavier Clavier</a> from <a className="underline text-blue-400 hover:text-blue-300" href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=310690">Pixabay</a>
-                </p>
-                <p>Weather App by <a className="underline text-blue-500" href="https://github.com/jjteoh-thewebdev">JJTeoh</a> with ❤️</p>
-            </div>
+            <Legend />
         </div>
     )
 }

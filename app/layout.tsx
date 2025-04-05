@@ -6,7 +6,7 @@ import { AudioProvider } from "@/lib/audio-context";
 const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Solar System",
+  title: "R3F Solar System",
   description: "Interactive 3D Solar System",
 };
 
