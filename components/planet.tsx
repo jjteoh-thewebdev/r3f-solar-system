@@ -53,12 +53,17 @@ export default function Planet({ planet, onClick }: PlanetProps) {
     // Rotate the planet and orbit
     useFrame((state, delta) => {
         if (planetRef.current) {
-            // Rotate the planet on its axis
+            // Apply axial tilt
+            planetRef.current.rotation.x = THREE.MathUtils.degToRad(planet.axialTilt)
+
+            // Rotate around the tilted axis
             planetRef.current.rotation.y += delta * planet.rotationSpeed
         }
 
         if (ringRef.current) {
-            // Rotate the rings around the planet's axis (Z-axis)
+            // Apply the same tilt to rings
+            ringRef.current.rotation.x = THREE.MathUtils.degToRad(90 + planet.axialTilt)
+            // Rotate the rings with the planet
             ringRef.current.rotation.z += delta * planet.rotationSpeed
         }
 
@@ -107,7 +112,6 @@ export default function Planet({ planet, onClick }: PlanetProps) {
                     {planet.name === "Saturn" && ringGeometry && (
                         <mesh
                             ref={ringRef}
-                            rotation={[Math.PI / 2, 0, 0]}
                             geometry={ringGeometry}
                         >
                             <meshBasicMaterial

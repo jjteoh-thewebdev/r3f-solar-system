@@ -74,6 +74,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Loading screen inspired by: [css-loader](https://github.com/vineethtrv/css-loader)
 
 
+## Future Roadmap
+- Zoom in planet
+- Moon, statelit
+- Major asteroids, meteroids, rocket incidents
+- Optimization: Implement level of detail (LOD) - load item closer to camera first
+
+
 ## 👨‍💻 Author
 
 [@jjteoh-thewebdev](https://github.com/jjteoh-thewebdev)

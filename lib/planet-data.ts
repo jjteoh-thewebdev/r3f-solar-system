@@ -13,6 +13,7 @@ export interface PlanetData {
   realDistanceFromSun: number
   rotationSpeed: number
   orbitSpeed: number
+  axialTilt: number
   textureUrl: string
   diameter: number
   dayLength: string
@@ -76,6 +77,7 @@ export const planets: PlanetData[] = [
     realDistanceFromSun: 57.9,
     rotationSpeed: 0.01,
     orbitSpeed: 0.04,
+    axialTilt: 0.03,
     textureUrl: "/textures/planets/2k_mercury.jpg",
     diameter: 4_879,
     dayLength: "58.6 Earth days",
@@ -97,7 +99,7 @@ export const planets: PlanetData[] = [
     realDistanceFromSun: 108.2,
     rotationSpeed: 0.0007,
     orbitSpeed: 0.015,
-    // TODO: add venus orbit texture
+    axialTilt: 177.3,
     textureUrl: "/textures/planets/2k_venus_surface.jpg",
     diameter: 12_104,
     dayLength: "243 Earth days",
@@ -119,6 +121,7 @@ export const planets: PlanetData[] = [
     realDistanceFromSun: 149.6,
     rotationSpeed: 0.01,
     orbitSpeed: 0.01,
+    axialTilt: 23.5,
     textureUrl: "/textures/planets/2k_earth_daymap.jpg",
     diameter: 12_756,
     dayLength: "24 hours",
@@ -132,7 +135,6 @@ export const planets: PlanetData[] = [
       "Earth is the third planet from the Sun and the only astronomical object known to harbor life. It has one natural satellite, the Moon.",
     moons: [
       {
-        // TODO: add moon texture for more realistic look
         name: "Moon",
         size: 0.3,
         color: "#CCCCCC",
@@ -149,6 +151,7 @@ export const planets: PlanetData[] = [
     realDistanceFromSun: 227.9,
     rotationSpeed: 0.01,
     orbitSpeed: 0.008,
+    axialTilt: 25.2,
     textureUrl: "/textures/planets/2k_mars.jpg",
     diameter: 6_779,
     dayLength: "24.6 hours",
@@ -183,6 +186,7 @@ export const planets: PlanetData[] = [
     realDistanceFromSun: 778.5,
     rotationSpeed: 0.04,
     orbitSpeed: 0.004,
+    axialTilt: 3.1,
     textureUrl: "/textures/planets/2k_jupiter.jpg",
     diameter: 139_820,
     dayLength: "9.9 hours",
@@ -227,6 +231,7 @@ export const planets: PlanetData[] = [
     realDistanceFromSun: 1_434.0,
     rotationSpeed: 0.04,
     orbitSpeed: 0.002,
+    axialTilt: 26.7,
     textureUrl: "/textures/planets/2k_saturn.jpg",
     diameter: 116_460,
     dayLength: "10.7 hours",
@@ -261,6 +266,7 @@ export const planets: PlanetData[] = [
     realDistanceFromSun: 2_871.0,
     rotationSpeed: 0.01,
     orbitSpeed: 0.0007,
+    axialTilt: 97.8,
     textureUrl: "/textures/planets/2k_uranus.jpg",
     diameter: 50_724,
     dayLength: "17.2 hours",
@@ -295,6 +301,7 @@ export const planets: PlanetData[] = [
     realDistanceFromSun: 4_495.0,
     rotationSpeed: 0.01,
     orbitSpeed: 0.0005,
+    axialTilt: 28.3,
     textureUrl: "/textures/planets/2k_neptune.jpg",
     diameter: 49_244,
     dayLength: "16.1 hours",
