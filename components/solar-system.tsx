@@ -13,6 +13,7 @@ import AudioControls from "@/components/audio-controls"
 import SunInfo from "./sun-info"
 import Legend from "./legend"
 import PerformanceMonitor from "./performance-monitor"
+import FullscreenButton from "./fullscreen-button"
 
 export default function SolarSystem() {
     const [selectedPlanet, setSelectedPlanet] = useState<PlanetData | null>(null)
@@ -65,6 +66,7 @@ export default function SolarSystem() {
     return (
         <div className="relative w-full h-full">
             <AudioControls />
+            <FullscreenButton />
             <Canvas
                 camera={{
                     position: cameraPosition, // position of the camera
