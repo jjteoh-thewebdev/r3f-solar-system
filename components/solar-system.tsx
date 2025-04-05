@@ -3,6 +3,7 @@
 import { useState, useRef } from "react"
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls } from "@react-three/drei"
+import { useMobile } from "@/lib/hooks/use-mobile"
 import { type PlanetData, planets, sunData, SunData } from "@/lib/planet-data"
 import Planet from "@/components/planet"
 import PlanetInfo from "@/components/planet-info"
@@ -17,6 +18,13 @@ export default function SolarSystem() {
     const [selectedSun, setSelectedSun] = useState<SunData | null>(null)
     const [isInfoVisible, setIsInfoVisible] = useState(false)
     const controlsRef = useRef(null)
+    const isMobile = useMobile()
+
+    // Adjust camera position based on device type
+    const cameraPosition: [number, number, number] = isMobile ? [0, 20, 40] : [0, 20, 30]
+    // field of view(fov) measures in degrees(angle between the camera and the scene)
+    // the higher the number, the more of the scene is visible
+    const cameraFov = isMobile ? 60 : 45 
 
     const handleSunClick = () => {
         setSelectedSun(sunData)
@@ -42,7 +50,22 @@ export default function SolarSystem() {
     return (
         <div className="relative w-full h-full">
             <AudioControls />
-            <Canvas camera={{ position: [0, 20, 50], fov: 60 }}>
+            <Canvas
+                camera={{
+                    position: cameraPosition, // position of the camera
+                    fov: cameraFov, // field of view, the angle between the camera and the scene, controls how much of the scene is visible
+                    near: 0.1, // near clipping plane, the distance to the closest objects
+                    far: 1000, // far clipping plane, the distance to the farthest objects
+                }}
+                dpr={isMobile ? 1 : 2}  // device pixel ratio, 1 = 1:1 = low quality(better performance), 2 = 2:1 = high quality(worse performance)
+                gl={{
+                    antialias: !isMobile, // smooth edges of shapes
+                    powerPreference: "high-performance", // use high performance GPU(better performance but drains battery)
+                    stencil: false, // disable stencil buffer(for masking filters, shadows, etc.)
+                    depth: true, // enable depth buffer(for 3D objects)
+                    alpha: false, // disable alpha buffer(for transparency)
+                }}
+            >
                 <color attach="background" args={["#000"]} />
                 <ambientLight intensity={0.6} />
                 <pointLight position={[0, 0, 0]} intensity={4} color="#fff" />
