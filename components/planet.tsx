@@ -27,9 +27,17 @@ export default function Planet({ planet, onClick }: PlanetProps) {
         return new THREE.SphereGeometry(planet.size, segments, segments)
     }, [planet.size, isMobile])
 
+    // Create orbit line geometry
     const orbitGeometry = useMemo(() => {
+        const points = []
         const segments = isMobile ? 32 : 64
-        return new THREE.RingGeometry(planet.distanceFromSun, planet.distanceFromSun + 0.05, segments)
+        for (let i = 0; i <= segments; i++) {
+            const angle = (i / segments) * Math.PI * 2
+            const x = Math.cos(angle) * planet.distanceFromSun
+            const z = Math.sin(angle) * planet.distanceFromSun
+            points.push(new THREE.Vector3(x, 0, z))
+        }
+        return new THREE.BufferGeometry().setFromPoints(points)
     }, [planet.distanceFromSun, isMobile])
 
     const ringGeometry = useMemo(() => {
@@ -68,9 +76,12 @@ export default function Planet({ planet, onClick }: PlanetProps) {
     return (
         <group>
             {/* Orbit line */}
-            <mesh rotation={[Math.PI / 2, 0, 0]} geometry={orbitGeometry}>
-                <meshBasicMaterial color="#ffffff" opacity={0.1} transparent side={THREE.DoubleSide} />
-            </mesh>
+            <primitive object={new THREE.Line(orbitGeometry, new THREE.LineBasicMaterial({
+                color: "#4a90e2",
+                transparent: true,
+                opacity: 0.3,
+                linewidth: 1
+            }))} />
 
             {/* Planet orbit group */}
             <group ref={orbitRef}>
