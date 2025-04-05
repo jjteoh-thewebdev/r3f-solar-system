@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import { AudioProvider } from "@/lib/audio-context";
+import { Analytics } from "@vercel/analytics/next";
 
 const geist = Geist({ subsets: ["latin"] });
 
@@ -21,6 +22,9 @@ export default function RootLayout({
         <AudioProvider>
           {children}
         </AudioProvider>
+
+        {/* Vercel analytics */}
+        <Analytics />
       </body>
     </html>
   );
