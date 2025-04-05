@@ -1,10 +1,12 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useRef, useState, useMemo } from "react"
 import { useFrame } from "@react-three/fiber"
 import { Text } from "@react-three/drei"
 import type { PlanetData } from "@/lib/planet-data"
 import * as THREE from "three"
+import { useMobile } from "@/lib/hooks/use-mobile"
+import { useOptimizedTexture } from "@/lib/hooks/use-optimized-texture"
 
 interface PlanetProps {
     planet: PlanetData
@@ -17,14 +19,28 @@ export default function Planet({ planet, onClick }: PlanetProps) {
     const textRef = useRef<THREE.Group>(null)
     const ringRef = useRef<THREE.Mesh>(null)
     const [hovered, setHovered] = useState(false)
+    const isMobile = useMobile()
 
-    // Create a texture for the planet
-    const texture = new THREE.TextureLoader().load(planet.textureUrl)
+    // Create geometries with reduced segments for mobile
+    const sphereGeometry = useMemo(() => {
+        const segments = isMobile ? 16 : 32
+        return new THREE.SphereGeometry(planet.size, segments, segments)
+    }, [planet.size, isMobile])
 
-    // Create ring texture for Saturn
-    const ringTexture = planet.name === "Saturn"
-        ? new THREE.TextureLoader().load('/textures/planets/2k_saturn_ring_alpha.png')
-        : null
+    const orbitGeometry = useMemo(() => {
+        const segments = isMobile ? 32 : 64
+        return new THREE.RingGeometry(planet.distanceFromSun, planet.distanceFromSun + 0.05, segments)
+    }, [planet.distanceFromSun, isMobile])
+
+    const ringGeometry = useMemo(() => {
+        if (planet.name !== "Saturn") return null
+        const segments = isMobile ? 32 : 64
+        return new THREE.RingGeometry(planet.size * 1.2, planet.size * 1.7, segments)
+    }, [planet.name, planet.size, isMobile])
+
+    // Use optimized texture loading
+    const texture = useOptimizedTexture(planet.textureUrl)
+    const ringTexture = useOptimizedTexture('/textures/planets/2k_saturn_ring_alpha.png')
 
     // Rotate the planet and orbit
     useFrame((state, delta) => {
@@ -52,8 +68,7 @@ export default function Planet({ planet, onClick }: PlanetProps) {
     return (
         <group>
             {/* Orbit line */}
-            <mesh rotation={[Math.PI / 2, 0, 0]}>
-                <ringGeometry args={[planet.distanceFromSun, planet.distanceFromSun + 0.05, 64]} />
+            <mesh rotation={[Math.PI / 2, 0, 0]} geometry={orbitGeometry}>
                 <meshBasicMaterial color="#ffffff" opacity={0.1} transparent side={THREE.DoubleSide} />
             </mesh>
 
@@ -66,8 +81,8 @@ export default function Planet({ planet, onClick }: PlanetProps) {
                         onClick={onClick}
                         onPointerOver={() => setHovered(true)}
                         onPointerOut={() => setHovered(false)}
+                        geometry={sphereGeometry}
                     >
-                        <sphereGeometry args={[planet.size, 32, 32]} />
                         <meshStandardMaterial
                             map={texture}
                             emissive="#888888"
@@ -78,12 +93,12 @@ export default function Planet({ planet, onClick }: PlanetProps) {
                     </mesh>
 
                     {/* Saturn's rings */}
-                    {planet.name === "Saturn" && ringTexture && (
+                    {planet.name === "Saturn" && ringGeometry && (
                         <mesh
                             ref={ringRef}
-                            rotation={[Math.PI / 2, 0, 0]} // Tilt the rings 90 degrees
+                            rotation={[Math.PI / 2, 0, 0]}
+                            geometry={ringGeometry}
                         >
-                            <ringGeometry args={[planet.size * 1.2, planet.size * 1.7, 64]} />
                             <meshBasicMaterial
                                 map={ringTexture}
                                 transparent
@@ -93,8 +108,8 @@ export default function Planet({ planet, onClick }: PlanetProps) {
                         </mesh>
                     )}
 
-                    {/* Planet name label */}
-                    {hovered && (
+                    {/* Planet name label - only show on desktop */}
+                    {(hovered && !isMobile) && (
                         <group ref={textRef}>
                             <Text
                                 position={[0, planet.size + 1, 0]}
