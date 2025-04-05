@@ -1,67 +1,36 @@
 "use client"
 
-import type { SunData } from "@/lib/planet-data"
+import { useState } from "react"
 import { Play, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { useEffect, useRef, useState } from "react"
 import VideoPlayer from "./video-player"
+import { useAudio } from "@/lib/audio-context"
+import type { SunData } from "@/lib/planet-data"
 
 interface SunInfoProps {
     sun: SunData
     onClose: () => void
+    isVisible: boolean
 }
 
-export default function SunInfo({ sun, onClose }: SunInfoProps) {
-    const [isVisible, setIsVisible] = useState(false)
-    const containerRef = useRef<HTMLDivElement>(null)
+export default function SunInfo({ sun, onClose, isVisible }: SunInfoProps) {
     const [isVideoOpen, setIsVideoOpen] = useState(false)
-
-    useEffect(() => {
-        // Trigger the fade-in animation after mount
-        const timer = setTimeout(() => setIsVisible(true), 50)
-        return () => clearTimeout(timer)
-    }, [])
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            // Don't close if video player is open
-            if (isVideoOpen) return
-
-            // Check if the click is outside the planet info card
-            if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-                // Check if the click is not on the Dialog
-                const dialog = document.querySelector('[role="dialog"]')
-                if (!dialog || !dialog.contains(event.target as Node)) {
-                    handleClose()
-                }
-            }
-        }
-
-        document.addEventListener('mousedown', handleClickOutside)
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside)
-        }
-    }, [isVideoOpen])
-
-    const handleClose = () => {
-        setIsVisible(false)
-        // Wait for fade-out animation before calling onClose
-        setTimeout(onClose, 300)
-    }
+    const { pause, resume } = useAudio()
 
     const handleOpenVideo = () => {
         setIsVideoOpen(true)
+        pause() // Pause background music when video opens
     }
 
     const handleCloseVideo = () => {
         setIsVideoOpen(false)
+        resume() // Resume background music when video closes
     }
 
     return (
         <>
             <div
-                ref={containerRef}
                 className={`absolute top-4 right-4 w-80 transition-all duration-300 ease-in-out ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'
                     }`}
             >
@@ -91,7 +60,6 @@ export default function SunInfo({ sun, onClose }: SunInfoProps) {
                             <p className="text-sm mt-2">{sun.description}</p>
                         </div>
                     </CardContent>
-
                     {sun.videoUrl && (
                         <CardFooter>
                             <Button variant="outline" className="w-full flex items-center gap-2 text-black" onClick={handleOpenVideo}>
@@ -102,6 +70,7 @@ export default function SunInfo({ sun, onClose }: SunInfoProps) {
                     )}
                 </Card>
             </div>
+
             {sun.videoUrl && (
                 <VideoPlayer
                     isOpen={isVideoOpen}

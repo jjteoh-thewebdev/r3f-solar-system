@@ -14,21 +14,28 @@ import SunInfo from "./sun-info"
 export default function SolarSystem() {
     const [selectedPlanet, setSelectedPlanet] = useState<PlanetData | null>(null)
     const [selectedSun, setSelectedSun] = useState<SunData | null>(null)
+    const [isInfoVisible, setIsInfoVisible] = useState(false)
     const controlsRef = useRef(null)
 
     const handleSunClick = () => {
         setSelectedSun(sunData)
         setSelectedPlanet(null)
+        setIsInfoVisible(true)
     }
 
     const handlePlanetClick = (planet: PlanetData) => {
         setSelectedPlanet(planet)
         setSelectedSun(null)
+        setIsInfoVisible(true)
     }
 
     const handleCloseInfo = () => {
-        setSelectedPlanet(null)
-        setSelectedSun(null)
+        setIsInfoVisible(false)
+        // Wait for fade-out animation before clearing selection
+        setTimeout(() => {
+            setSelectedPlanet(null)
+            setSelectedSun(null)
+        }, 300)
     }
 
     return (
@@ -57,8 +64,22 @@ export default function SolarSystem() {
                 />
             </Canvas>
 
-            {selectedPlanet && <PlanetInfo planet={selectedPlanet} onClose={handleCloseInfo} />}
-            {selectedSun && <SunInfo sun={selectedSun} onClose={handleCloseInfo} />}
+            {selectedPlanet && (
+                <PlanetInfo
+                    key={selectedPlanet.id}
+                    planet={selectedPlanet}
+                    onClose={handleCloseInfo}
+                    isVisible={isInfoVisible}
+                />
+            )}
+            {selectedSun && (
+                <SunInfo
+                    key="sun"
+                    sun={selectedSun}
+                    onClose={handleCloseInfo}
+                    isVisible={isInfoVisible}
+                />
+            )}
 
             <div className="absolute bottom-4 left-4 text-white bg-gradient-to-r from-gray-900/90 to-gray-800/90 backdrop-blur-md p-4 rounded-lg shadow-xl border border-gray-700/50">
                 <p>Click on a planet to view details</p>
@@ -67,6 +88,7 @@ export default function SolarSystem() {
                 <p>
                     Music by <a className="underline text-blue-400 hover:text-blue-300" href="https://pixabay.com/users/clavier-music-16027823/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=310690">Clavier Clavier</a> from <a className="underline text-blue-400 hover:text-blue-300" href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=310690">Pixabay</a>
                 </p>
+                <p>Weather App by <a className="underline text-blue-500" href="https://github.com/jjteoh-thewebdev">JJTeoh</a> with ❤️</p>
             </div>
         </div>
     )

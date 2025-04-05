@@ -59,8 +59,10 @@ export default function Planet({ planet, onClick }: PlanetProps) {
                         <sphereGeometry args={[planet.size, 32, 32]} />
                         <meshStandardMaterial
                             map={texture}
-                            emissive={hovered ? "#cccccc" : "#888888"}
-                            emissiveIntensity={hovered ? 0.1 : 0.05}
+                            // emissive={hovered ? "#cccccc" : "#888888"}
+                            // emissiveIntensity={hovered ? 0.1 : 0.05}
+                            emissive="#888888"
+                            emissiveIntensity={0.05}
                             roughness={0.5}
                             metalness={0.1}
                         />

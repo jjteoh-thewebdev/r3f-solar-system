@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useState } from "react"
 import type { PlanetData } from "@/lib/planet-data"
 import { Play, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -11,46 +11,12 @@ import { useAudio } from "@/lib/audio-context"
 interface PlanetInfoProps {
     planet: PlanetData
     onClose: () => void
+    isVisible: boolean
 }
 
-export default function PlanetInfo({ planet, onClose }: PlanetInfoProps) {
-    const [isVisible, setIsVisible] = useState(false)
+export default function PlanetInfo({ planet, onClose, isVisible }: PlanetInfoProps) {
     const [isVideoOpen, setIsVideoOpen] = useState(false)
-    const containerRef = useRef<HTMLDivElement>(null)
     const { pause, resume } = useAudio()
-
-    useEffect(() => {
-        // Trigger the fade-in animation after mount
-        const timer = setTimeout(() => setIsVisible(true), 50)
-        return () => clearTimeout(timer)
-    }, [])
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            // Don't close if video player is open
-            if (isVideoOpen) return
-
-            // Check if the click is outside the planet info card
-            if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-                // Check if the click is not on the Dialog
-                const dialog = document.querySelector('[role="dialog"]')
-                if (!dialog || !dialog.contains(event.target as Node)) {
-                    handleClose()
-                }
-            }
-        }
-
-        document.addEventListener('mousedown', handleClickOutside)
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside)
-        }
-    }, [isVideoOpen])
-
-    const handleClose = () => {
-        setIsVisible(false)
-        // Wait for fade-out animation before calling onClose
-        setTimeout(onClose, 300)
-    }
 
     const handleOpenVideo = () => {
         setIsVideoOpen(true)
@@ -65,14 +31,13 @@ export default function PlanetInfo({ planet, onClose }: PlanetInfoProps) {
     return (
         <>
             <div
-                ref={containerRef}
                 className={`absolute top-4 right-4 w-80 transition-all duration-300 ease-in-out ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'
                     }`}
             >
                 <Card className="bg-black/80 text-white border-gray-700">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <CardTitle className="text-xl font-bold">{planet.name}</CardTitle>
-                        <Button variant="ghost" size="icon" onClick={handleClose} className="h-8 w-8">
+                        <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8">
                             <X className="h-4 w-4" />
                         </Button>
                     </CardHeader>
