@@ -15,16 +15,27 @@ export default function Planet({ planet, onClick }: PlanetProps) {
     const planetRef = useRef<THREE.Mesh>(null)
     const orbitRef = useRef<THREE.Group>(null)
     const textRef = useRef<THREE.Group>(null)
+    const ringRef = useRef<THREE.Mesh>(null)
     const [hovered, setHovered] = useState(false)
 
     // Create a texture for the planet
     const texture = new THREE.TextureLoader().load(planet.textureUrl)
+
+    // Create ring texture for Saturn
+    const ringTexture = planet.name === "Saturn"
+        ? new THREE.TextureLoader().load('/textures/planets/2k_saturn_ring_alpha.png')
+        : null
 
     // Rotate the planet and orbit
     useFrame((state, delta) => {
         if (planetRef.current) {
             // Rotate the planet on its axis
             planetRef.current.rotation.y += delta * planet.rotationSpeed
+        }
+
+        if (ringRef.current) {
+            // Rotate the rings around the planet's axis (Z-axis)
+            ringRef.current.rotation.z += delta * planet.rotationSpeed
         }
 
         if (orbitRef.current) {
@@ -59,14 +70,28 @@ export default function Planet({ planet, onClick }: PlanetProps) {
                         <sphereGeometry args={[planet.size, 32, 32]} />
                         <meshStandardMaterial
                             map={texture}
-                            // emissive={hovered ? "#cccccc" : "#888888"}
-                            // emissiveIntensity={hovered ? 0.1 : 0.05}
                             emissive="#888888"
                             emissiveIntensity={0.05}
                             roughness={0.5}
                             metalness={0.1}
                         />
                     </mesh>
+
+                    {/* Saturn's rings */}
+                    {planet.name === "Saturn" && ringTexture && (
+                        <mesh
+                            ref={ringRef}
+                            rotation={[Math.PI / 2, 0, 0]} // Tilt the rings 90 degrees
+                        >
+                            <ringGeometry args={[planet.size * 1.2, planet.size * 1.7, 64]} />
+                            <meshBasicMaterial
+                                map={ringTexture}
+                                transparent
+                                side={THREE.DoubleSide}
+                                depthWrite={false}
+                            />
+                        </mesh>
+                    )}
 
                     {/* Planet name label */}
                     {hovered && (
