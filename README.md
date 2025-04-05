@@ -3,12 +3,15 @@
 [![GitHub stars](https://img.shields.io/github/stars/jjteoh-thewebdev/r3f-solar-system?style=social)](https://github.com/jjteoh-thewebdev/r3f-solar-system/stargazers)
 [![GitHub license](https://img.shields.io/github/license/jjteoh-thewebdev/r3f-solar-system)](https://github.com/jjteoh-thewebdev/r3f-solar-system/blob/main/LICENSE)
 
-
+[Live Preview](https://r3f-solar-system-three.vercel.app/)
 <div align="center">
     <img src="preview.gif" />
 </div>
 
+
+
 An interactive 3D visualization of our solar system built with React Three Fiber (R3F) and Next.js. Explore planets, learn about their characteristics, and watch educational videos about each celestial body.
+
 
 ## ✨ Features
 
