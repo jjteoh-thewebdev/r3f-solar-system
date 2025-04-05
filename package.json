@@ -3,6 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jjteoh-thewebdev/r3f-solar-system.git"
+  },
+  "homepage": "https://github.com/jjteoh-thewebdev/r3f-solar-system#readme",
+  "bugs": {
+    "url": "https://github.com/jjteoh-thewebdev/r3f-solar-system/issues"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
