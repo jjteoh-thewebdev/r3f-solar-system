@@ -9,19 +9,6 @@ export default function FullscreenButton() {
     const [isFullscreen, setIsFullscreen] = useState(false)
     const isMobile = useMobile()
 
-    // Don't render on mobile
-    if (isMobile) return null
-
-    const toggleFullscreen = () => {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen()
-            setIsFullscreen(true)
-        } else {
-            document.exitFullscreen()
-            setIsFullscreen(false)
-        }
-    }
-
     // Update fullscreen state when user presses ESC
     useEffect(() => {
         const handleFullscreenChange = () => {
@@ -33,6 +20,19 @@ export default function FullscreenButton() {
             document.removeEventListener('fullscreenchange', handleFullscreenChange)
         }
     }, [])
+
+    const toggleFullscreen = () => {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen()
+            setIsFullscreen(true)
+        } else {
+            document.exitFullscreen()
+            setIsFullscreen(false)
+        }
+    }
+
+    // Don't render on mobile
+    if (isMobile) return null
 
     return (
         <Button

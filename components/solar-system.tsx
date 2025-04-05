@@ -14,12 +14,14 @@ import SunInfo from "./sun-info"
 import Legend from "./legend"
 import PerformanceMonitor from "./performance-monitor"
 import FullscreenButton from "./fullscreen-button"
+import LoadingScreen from "./loading-screen"
 
 export default function SolarSystem() {
     const [selectedPlanet, setSelectedPlanet] = useState<PlanetData | null>(null)
     const [selectedSun, setSelectedSun] = useState<SunData | null>(null)
     const [isInfoVisible, setIsInfoVisible] = useState(false)
     const [quality, setQuality] = useState<"high" | "medium" | "low">("high")
+    const [isLoading, setIsLoading] = useState(true)
     const controlsRef = useRef(null)
     const isMobile = useMobile()
 
@@ -65,6 +67,7 @@ export default function SolarSystem() {
 
     return (
         <div className="relative w-full h-full">
+            {isLoading && <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />}
             <AudioControls />
             <FullscreenButton />
             <Canvas

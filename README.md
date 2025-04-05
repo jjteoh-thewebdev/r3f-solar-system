@@ -71,6 +71,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Astronomy info from [NASA](https://science.nasa.gov/solar-system/planets/)
 - Background music by [Clavier Clavier](https://pixabay.com/users/clavier-music-16027823/) from [Pixabay](https://pixabay.com/)
 - Educational videos from [Crash Course](https://thecrashcourse.com/)
+- Loading screen inspired by: [css-loader](https://github.com/vineethtrv/css-loader)
 
 
 ## 👨‍💻 Author
