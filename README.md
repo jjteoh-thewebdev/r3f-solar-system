@@ -10,7 +10,7 @@
 
 
 
-An interactive 3D visualization of our solar system built with React Three Fiber (R3F) and Next.js. Explore planets, learn about their characteristics, and watch educational videos about each celestial body.
+An interactive 3D visualization of our solar system built with React Three Fiber (R3F) and Next.js. Explore planets, learn about their characteristics, and watch educational videos about each celestial body. Inspired by: [Eyes On The Solar System](https://eyes.nasa.gov/apps/solar-system/)
 
 
 ## ✨ Features
