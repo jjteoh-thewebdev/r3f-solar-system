@@ -5,7 +5,7 @@
 
 [Live Preview](https://r3f-solar-system-three.vercel.app/)
 <div align="center">
-    <video src="preview.webm" />
+    <img src="preview.gif" />
 </div>
 
 
