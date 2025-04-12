@@ -20,7 +20,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
         // Set initial volume and state
         audio.volume = 0.5
-        setIsPlaying(true)
+        // setIsPlaying(true)
 
         // Handle keyboard controls
         const handleKeyDown = (e: KeyboardEvent) => {
