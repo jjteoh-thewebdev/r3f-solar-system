@@ -14,6 +14,7 @@ import Legend from "./legend"
 import PerformanceMonitor from "./performance-monitor"
 import FullscreenButton from "./fullscreen-button"
 import LoadingScreen from "./loading-screen"
+import AudioButton from "./audio-button"
 
 export default function SolarSystem() {
     const [selectedPlanet, setSelectedPlanet] = useState<PlanetData | null>(null)
@@ -68,6 +69,7 @@ export default function SolarSystem() {
         <div className="relative w-full h-full">
             {isLoading && <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />}
             <FullscreenButton />
+            <AudioButton />
             <Canvas
                 camera={{
                     position: cameraPosition,

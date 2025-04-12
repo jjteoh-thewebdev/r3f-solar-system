@@ -4,12 +4,14 @@ import { useState } from "react"
 import { Info } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useMobile } from "@/lib/hooks/use-mobile"
 
 export default function Legend() {
     const [isOpen, setIsOpen] = useState(false)
+    const isMobile = useMobile()
 
     return (
-        <div className="absolute bottom-4 left-4">
+        <div className={`absolute ${isMobile ? 'bottom-20' : 'bottom-4'} left-4`}>
             <Button
                 variant="ghost"
                 size="icon"
@@ -27,7 +29,11 @@ export default function Legend() {
                     <CardContent className="p-4 pt-0 text-white space-y-2">
                         <p>- Click on a planet to view details</p>
                         <p>- Use mouse to orbit, scroll to zoom</p>
-                        <p>- Press <code className="bg-gray-500/50 px-1 rounded-md">space</code> to toggle music, <code className="bg-gray-500/50 px-1 rounded-md">Ctrl</code> + <code className="bg-gray-500/50 px-1 rounded-md">↑/↓</code> to adjust volume</p>
+                        {isMobile ? (
+                            <p>- Use audio button to toggle music</p>
+                        ) : (
+                                <p>- Press <code className="bg-gray-500/50 px-1 rounded-md">space</code> to toggle music, <code className="bg-gray-500/50 px-1 rounded-md">Ctrl</code> + <code className="bg-gray-500/50 px-1 rounded-md">↑/↓</code> to adjust volume</p>
+                        )}
                         <p className="text-sm mt-6">
                             Music by <a className="underline text-blue-400 hover:text-blue-300" href="https://pixabay.com/users/clavier-music-16027823/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=310690">Clavier Clavier</a> from <a className="underline text-blue-400 hover:text-blue-300" href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=310690">Pixabay</a>
                         </p>

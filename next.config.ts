@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   devIndicators: {
-    position: 'top-left' // prevent conflicts with our custom legend
+    position: 'bottom-right' // prevent conflicts with our custom legend
   }
 };
 
